@@ -1,8 +1,8 @@
 ﻿#include <iostream>
 #include <vector>
-//#include <conio.h>
+#include <conio.h>
 #include <math.h>
-//#include <stdlib.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -51,7 +51,7 @@ float det_A(vector <vector<float> > matrix_A, int n1)
 	return det;
 } 
 
-vector< vector<float> > alg_A(vector <vector<float> > matrix_A, int n1)
+vector< vector<float> > alg_A(vector <vector<float> > matrix_A, int n1, int det)
 {
 	vector <vector<float> > matrix_alg_A;
 	matrix_alg_A.resize(n1);
@@ -73,19 +73,19 @@ vector< vector<float> > alg_A(vector <vector<float> > matrix_A, int n1)
 		matrix_AT[i] = matrix_buf;
 	}
 	
-	cout << "транспонированная матрица А(Т):" << endl;
+	cout << endl <<"Транспонированная матрица А(T) = " << endl;
 	
 	for (int i = 0; i < n1 ; i++)
 	{
 		for (int j = 0 ; j < n1 ; j++)
 		{
-			cout << matrix_AT[i][j];
+			cout << matrix_AT[i][j] << " ";
 		}
 		cout << endl;
 	}
 	cout << "---------------------------------" << endl;
-	cout << "вычисление матрицы алгебраических дополнений" << endl;
-	// вычисление алг. дополнений
+	cout << "вычисление матирцы алгебраических дополнений" << endl;
+	// вычисление матрицы алг.дополнений
 	for (int i = 0 ; i < n1 ; i++)
 	{
 		vector<float> matrix_alg_A_buf;
@@ -117,7 +117,7 @@ vector< vector<float> > alg_A(vector <vector<float> > matrix_A, int n1)
 				}
 			}			
 			for (int o1 = 0 ; o1 < n1-1 ; o1++){for (int o = 0 ; o < n1-1 ; o++){cout << buffer_1[o1][o] << " ";}	cout << endl;}		
-			matrix_alg_A_buf[j] = pow(-1,i+j) * det_A(buffer_1, n2) * 0.5;	
+			matrix_alg_A_buf[j] = pow(-1,i+j) * det_A(buffer_1, n2) * 1/det;	
 			cout <<"det["<<i<<"]["<<j<<"] = " << matrix_alg_A_buf[j] << endl;				
 		}
 		matrix_alg_A[i] = matrix_alg_A_buf;
@@ -127,10 +127,10 @@ vector< vector<float> > alg_A(vector <vector<float> > matrix_A, int n1)
 
 vector < vector <float> > AxB_1(vector <vector<float> > matrix_A , int n1, vector <vector<float> > matrix_B, int n2, int m2)
 {
-	// проверка на возможность решения
+	// проверка на взможность
 	if (n1 != n2)
 	{
-		cout << "решение невозможно т.к. кол-во строк в матрице A и столбцов матрицы B не совпадает"<< endl;
+		cout << "Кол-во строк матрицы A не совпадает с кол-вом столбцов матрицы B --> решение невозможно"<< endl;
 		exit(0);
 	}
 	vector < vector <float> > matrix_X;
@@ -155,10 +155,10 @@ vector < vector <float> > AxB_1(vector <vector<float> > matrix_A , int n1, vecto
  
 vector < vector <float> > AxB_2(vector <vector<float> > matrix_B , int n2, int m2, vector <vector<float> > matrix_A , int n1)
 {
-	// проверка на возможность решения
+	// проверка на взможность
 	if (m2 != n1)
 	{
-		cout << "решение невозможно т.к. кол-во строк в матрице В и столбцов матрицы A не совпадает"<< endl;
+		cout << "Кол-во строк матрицы B не совпадает с кол-вом столбцов матрицы A --> решение невозможно"<< endl;
 		exit(0);
 	}
 	vector < vector <float> > matrix_X;
@@ -251,7 +251,7 @@ int main()
 	setlocale(LC_ALL , "rus");
 	
 	cout << endl;
-	cout << "выберите действие" << endl;
+	cout << "Выберите действие" << endl;
 	cout << "1 - A*X = B " << endl;
 	cout << "2 - X*A = B " << endl;
 	int hod;
@@ -266,13 +266,13 @@ int main()
 	// проверка на возможность
 	if (det == 0)
 	{
-		cout << endl << "если определитель А равен 0, то обратной матрицы не существует --> решение невозможно"<< endl;
+		cout << endl << "Определитель матрицы А равен 0 --> решение невозможно"<< endl;
 		exit(0);
 	}
 	 
-	vector < vector <float> > matrix__A = alg_A(matrix_A, n1);
+	vector < vector <float> > matrix__A = alg_A(matrix_A, n1, det);
 	cout << endl << "---------------------------------" << endl;
-	cout << "обратная матрица A(-1) " << endl;
+	cout << "Обратная матрица A(-1) " << endl;
 	for (int i = 0 ; i < n1 ; i++)
 	{
 		for (int j = 0 ; j < n1 ; j++)
