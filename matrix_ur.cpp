@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 #include <conio.h>
 #include <math.h>
@@ -174,127 +174,163 @@ vector < vector <float> > AxB_2(vector <vector<float> > matrix_B , int n2, int m
 			for(int k = 0; k < m2; k++)
 			{
 				buffer[j] += matrix_B[i][k] * matrix_A[k][j];
-            	//matrix_C[i][j] += matrix_A[i][k] * matrix_B[k][j];
 			}
 		}
 		matrix_X[i] = buffer;
 	}
 	return matrix_X;
-} 		
- 
-int main()
+} 
+
+vector < vector <float> > Matrix_IN(int n1, int m1) // функция для простого ввода матрицы
 {
-    int n1; // ограничение первого вектора
-    cout << "n1=";cin >> n1;
-    vector < vector <float> > matrix_A;
-    matrix_A.resize(n1); 
-    cout << "MATRIX A numbers" << endl;
+	vector < vector <float> > Matrix_IN;
+    Matrix_IN.resize(n1); 
+    
     for (int i = 0 ; i < n1 ; i++)
 	{
     	vector <float> buffer;
     	buffer.resize(n1); 
     	
-    	for (int j = 0 ; j < n1 ; j++)
+    	for (int j = 0 ; j < m1 ; j++)
     	{
     		int buf;
     		cin >> buf;
     		buffer[j] = buf; 
 		}
-		matrix_A[i] = buffer;	
+		Matrix_IN[i] = buffer;	
 	}
-    cout << endl;
-    
-    int n2, m2; // ограничение второго вектора
-    cout << "n2=";cin >> n2;
-	cout << "m2=";cin >> m2;
-	
-    vector < vector <float> > matrix_B;
-    matrix_B.resize(n2); 
-    cout << "MATRIX B numbers" << endl;
-    for (int i = 0 ; i < n2 ; i++)
-	{
-    	vector <float> buffer;
-    	buffer.resize(m2); 
-    	
-    	for (int j = 0 ; j < m2 ; j++)
-    	{
-    		int buf;
-    		cin >> buf;
-    		buffer[j] = buf; 
-		}
-		matrix_B[i] = buffer;	
-	}
-    system("cls");
-    cout << "MATRIX A = " << endl;
-    cout << endl;
-	for (int i = 0 ; i < n1 ; i++)
-	{
-    	for (int j = 0 ; j < n1 ; j++)
-    	{
-    		cout << matrix_A[i][j] << " ";
-		}
-		cout << endl;
-		cout << endl;	
-	}
-	cout << "MATRIX B = " << endl;
-    cout << endl;
-	for (int i = 0 ; i < n2 ; i++)
-	{
-    	for (int j = 0 ; j < m2 ; j++)
-    	{
-    		cout << matrix_B[i][j] << " ";
-		}
-		cout << endl;
-		cout << endl;	
-	}
-	
+    return Matrix_IN;
+}		
+ 
+int main()
+{
 	setlocale(LC_ALL , "rus");
-	
 	cout << endl;
-	cout << "Выберите действие" << endl;
-	cout << "1 - A*X = B " << endl;
-	cout << "2 - X*A = B " << endl;
+	cout << " Выберите действие" << endl;
+	cout << " 1 - Матричное уравнение A*X = B " << endl;
+	cout << " 2 - Матричное уравнение X*A = B " << endl;
+	cout << " 3 - Система Линейных Уравнений "<< endl;
+	
 	int hod;
-	while (hod != 1 && hod != 2)
+	
+	while (hod != 1 && hod != 2 && hod != 3)
 	{
 		cin >> hod;
 	}
 	
-	float det = det_A(matrix_A , n1);
-	cout << "det(A) = " << det;
+	if (hod == 3)
+	{
+		cout << "Размеры уравнения" << endl;
+		int n1;
+		cout << "n1="; cin >> n1;
 		
-	// проверка на возможность
-	if (det == 0)
-	{
-		cout << endl << "Определитель матрицы А равен 0 --> решение невозможно"<< endl;
-		exit(0);
-	}
-	 
-	vector < vector <float> > matrix__A = alg_A(matrix_A, n1, det);
-	cout << endl << "---------------------------------" << endl;
-	cout << "Обратная матрица A(-1) " << endl;
-	for (int i = 0 ; i < n1 ; i++)
-	{
-		for (int j = 0 ; j < n1 ; j++)
-		{
-			cout << matrix__A[i][j] << " ";
-		}
+		cout << "введите значения для всех x:";
+		vector < vector <float> > matrix_A = Matrix_IN(n1, n1);
+		
+		cout << "введите конечные значения для всех " << n1 << " выражений:";
+		vector < vector <float> > matrix_B = Matrix_IN(n1, 1);
+		
+		system("cls");
 		cout << endl;
+		
+		cout << "MATRIX A (значения X) = " << endl;
+	    cout << endl;
+		for (int i = 0 ; i < n1 ; i++){for (int j = 0 ; j < n1 ; j++){cout << matrix_A[i][j] << " ";}cout << endl;cout << endl;	}
+		cout << "MATRIX B (конечные значения) = " << endl;
+	    cout << endl;
+		for (int i = 0 ; i < n2 ; i++){for (int j = 0 ; j < m2 ; j++){cout << matrix_B[i][j] << " ";}cout << endl;cout << endl;	}
+		
+		
+		float det = det_A(matrix_A , n1);
+		cout << "det(A) = " << det;
+			
+		// проверка на возможность
+		if (det == 0)
+		{
+			cout << endl << "Определитель матрицы А равен 0 --> решение невозможно"<< endl;
+			exit(0);
+		}
+		
+		vector < vector <float> > matrix__A = alg_A(matrix_A, n1, det);
+		cout << endl << "---------------------------------" << endl;
+		cout << "Обратная матрица A(-1) " << endl;
+		for (int i = 0 ; i < n1 ; i++)
+		{
+			for (int j = 0 ; j < n1 ; j++)
+			{
+				cout << matrix__A[i][j] << " ";
+			}
+			cout << endl;
+		}
+		cout << endl << "---------------------------------" << endl;
+		
+		vector < vector <float> > matrix_X = AxB_1(matrix__A, n1, matrix_B, n1, 1); 
+			cout << "A*X = B --> X= " << endl;
+			for (int i = 0 ; i < n1 ; i++){for (int j = 0 ; j < 1 ; j++){cout << "X(" << i + 1 << ") = " << matrix_X[i][j] << " ";}cout << endl;}
+		
 	}
-	cout << endl << "---------------------------------" << endl;
 	
-	if (hod == 1)
-	{	
-		vector < vector <float> > matrix_X = AxB_1(matrix__A, n1, matrix_B, n2, m2); 
-		cout << "X= " << endl;
-		for (int i = 0 ; i < n1 ; i++){for (int j = 0 ; j < m2 ; j++){cout << matrix_X[i][j] << " ";}cout << endl;}
-	}
+	if (hod == 1 || hod == 2)
+	{
+	    int n1; // ограничение первого вектора
+	    cout << "Размеры матрицы А (квадратная)" << endl;
+	    cout << "n1=";cin >> n1;
+		
+		cout << "MATRIX A numbers" << endl;
+	    vector < vector <float> > matrix_A = Matrix_IN(n1, n1);
+	    
+	    int n2, m2; // ограничение второго вектора
+	    cout << "Размеры матрицы B " << endl;
+	    cout << "n2=";cin >> n2;
+		cout << "m2=";cin >> m2;
+		
+	    vector < vector <float> > matrix_B = Matrix_IN(n2, m2);
 	
-	if (hod == 2)
-	{	
-		vector < vector <float> > matrix_X = AxB_2(matrix_B, n2, m2, matrix__A, n1); 
-		cout << "X= " << endl;
-		for (int i = 0 ; i < n2 ; i++){for (int j = 0 ; j < n1 ; j++){cout << matrix_X[i][j] << " ";}cout << endl;}
+	    system("cls");
+	    
+	    cout << "MATRIX A = " << endl;
+	    cout << endl;
+		for (int i = 0 ; i < n1 ; i++){for (int j = 0 ; j < n1 ; j++){cout << matrix_A[i][j] << " ";}cout << endl;cout << endl;	}
+		cout << "MATRIX B = " << endl;
+	    cout << endl;
+		for (int i = 0 ; i < n2 ; i++){for (int j = 0 ; j < m2 ; j++){cout << matrix_B[i][j] << " ";}cout << endl;cout << endl;	}
+		
+		float det = det_A(matrix_A , n1);
+		cout << "det(A) = " << det;
+			
+		// проверка на возможность
+		if (det == 0)
+		{
+			cout << endl << "Определитель матрицы А равен 0 --> решение невозможно"<< endl;
+			exit(0);
+		}
+		 
+		vector < vector <float> > matrix__A = alg_A(matrix_A, n1, det);
+		cout << endl << "---------------------------------" << endl;
+		cout << "Обратная матрица A(-1) " << endl;
+		for (int i = 0 ; i < n1 ; i++)
+		{
+			for (int j = 0 ; j < n1 ; j++)
+			{
+				cout << matrix__A[i][j] << " ";
+			}
+			cout << endl;
+		}
+		cout << endl << "---------------------------------" << endl;
+		
+		if (hod == 1)
+		{	
+			vector < vector <float> > matrix_X = AxB_1(matrix__A, n1, matrix_B, n2, m2); 
+			cout << "A*X = B --> X= " << endl;
+			for (int i = 0 ; i < n1 ; i++){for (int j = 0 ; j < m2 ; j++){cout << matrix_X[i][j] << " ";}cout << endl;}
+		}
+		
+		if (hod == 2)
+		{	
+			vector < vector <float> > matrix_X = AxB_2(matrix_B, n2, m2, matrix__A, n1); 
+			cout << "X*A = B --> X=" << endl;
+			for (int i = 0 ; i < n2 ; i++){for (int j = 0 ; j < n1 ; j++){cout << matrix_X[i][j] << " ";}cout << endl;}
+		}
 	}
 	
 }
